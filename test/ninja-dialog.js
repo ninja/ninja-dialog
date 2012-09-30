@@ -52,40 +52,19 @@
     ok(this.instance.$dialog.hasClass('ninja-dialog'), 'should have dialog class');
   });
 
-  module('JavaScript option', {
-    setup: function () {
-      this.elements = $('#qunit-fixture').find('.test-option');
-    }
-  });
-
-  test('is chainable', function () {
-    strictEqual(this.elements.ninja('dialog', {
-      html: 'Freedom!'
-    }), this.elements, 'should be chainable');
-  });
-
-  QUnit.done(function () {
-    $('#qunit-examples').find('.test-option').ninja('dialog', {
-      html: 'Freedom!'
-    });
-  });
-
-  module('inline-block', {
+  module('example', {
     setup: function () {
       this.elements = $('#qunit-fixture').find('.test-dialog');
     }
   });
 
-  test('is chainable', function () {
-    strictEqual(this.elements.ninja('dialog', {
-      html: 'Freedom!'
-    }), this.elements, 'should be chainable');
-  });
-
   QUnit.done(function () {
-    $('#qunit-examples').find('.test-dialog').ninja('dialog', {
-      html: $('#qunit-examples').find('table.ninja').clone(),
-      hover: true
+    var dialog = $.ninja.dialog({
+      html: $('.test-dialog').html()
+    });
+
+    $('#qunit-examples').find('.test-button').on('click', function () {
+      dialog.open();
     });
   });
 }(jQuery));

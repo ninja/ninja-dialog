@@ -1,21 +1,15 @@
 (function ($) {
   'use strict';
 
-  $.Ninja.Dialog = function (element, options) {
+  $.Ninja.Dialog = function (options) {
     var dialog = this;
-
-    if ($.isPlainObject(element)) {
-      options = element;
-    } else {
-      dialog.$element = $(element);
-    }
 
     if (options && 'html' in options) {
       dialog.$html = $('<span>', {
         html: options.html
       });
     } else {
-      $.ninja.error('Dialog must include JavaScipt html option.');
+      $.ninja.error('JavaScript option html required.');
     }
 
     dialog.$dialog = $('<span class="ninja-dialog">').append(dialog.$html);
@@ -23,19 +17,11 @@
     dialog.$screen = $('<div class="ninja-screen">').on('click.ninja', function (event) {
       event.stopImmediatePropagation();
 
-      dialog.$dialog.detach();
-
-      dialog.$screen.detach();
+      dialog.close();
     });
-
-    if (dialog.$element) {
-      dialog.$element.on('click', function () {
-        dialog.attach();
-      });
-    }
   };
 
-  $.Ninja.Dialog.prototype.attach = function () {
+  $.Ninja.Dialog.prototype.open = function () {
     var dialog = this;
 
     dialog.$window = $(window);
@@ -74,7 +60,13 @@
     }
   };
 
-  $.ninja.dialog = function (element, options) {
-    $.extend(new $.Ninja(element, options), new $.Ninja.Dialog(element, options));
+  $.Ninja.Dialog.prototype.close = function () {
+    this.$dialog.detach();
+
+    this.$screen.detach();
+  };
+
+  $.ninja.dialog = function (options) {
+    return new $.Ninja.Dialog(options);
   };
 }(jQuery));
